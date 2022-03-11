@@ -4,7 +4,7 @@
 
 TEST(test_case_name, test_name)
 {
-	ASSERT_EQ(1, 0) << "1 is not equal 0";
+	ASSERT_EQ(1, 1);
 }
 
 int main(int argc, char *argv[])
