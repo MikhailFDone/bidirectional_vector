@@ -2,9 +2,15 @@
 
 #include <gtest/gtest.h>
 
-TEST(test_case_name, test_name)
+TEST(bidirectional_vector, construct)
 {
-	ASSERT_EQ(1, 1);
+	ASSERT_NO_THROW(bidirectional_vector<int>{});
+
+	bidirectional_vector<int> empty_vector;
+	ASSERT_TRUE(empty_vector.empty());
+	ASSERT_EQ(empty_vector.size(), 0);
+	ASSERT_EQ(empty_vector.capacity(), 0);
+	ASSERT_NE(empty_vector.max_size(), 0);
 }
 
 int main(int argc, char *argv[])
