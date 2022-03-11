@@ -33,7 +33,7 @@ jobs:
       - name: build
         run: |
           cmake .
-          cmake --build
+          cmake --build build
 
       - name: tests
         run: build/test_bd_vector
