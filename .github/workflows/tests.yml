@@ -32,8 +32,9 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build
         run: |
-          cmake .
-          cmake --build build
+          mkdir build && cd build
+          cmake ../
+          cmake --build .
 
       - name: tests
         run: build/test_bd_vector
