@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.10)
+project(bidirectional_vector)
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories("./")
+add_executable(test_bd_vector tests/tests.cpp)
+target_link_libraries(test_bd_vector GTest::GTest GTest::Main)
+add_test(unit-test test_bd_vector)
