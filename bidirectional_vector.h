@@ -136,6 +136,8 @@ private:
 	pointer _end_of_storage = nullptr;
 
 public:
+	
+
 	// Iterators
 	iterator begin() { return iterator(_begin); }
 	const_iterator begin() const { return const_iterator(_begin); }
@@ -177,7 +179,7 @@ public:
 	iterator emplace(const_iterator position, Args &&...args)
 	{
 		const auto n = position - begin();
-		if (_begin != _begin_of_storage && (static_cast<std::size_t>(n) < (capacity() / 2)))
+		if (_begin != _begin_of_storage && (static_cast<std::size_t>(n) < (size() / 2)))
 		{
 			if (position == begin())
 			{
