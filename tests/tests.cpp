@@ -13,6 +13,23 @@ TEST(bidirectional_vector, construct)
 	ASSERT_NE(empty_vector.max_size(), 0);
 }
 
+TEST(bidirectional_vector, emplace)
+{
+	bidirectional_vector<int> empty_vector;
+	auto iter = empty_vector.emplace(empty_vector.begin(), 0);
+	ASSERT_EQ(iter, empty_vector.begin());
+	ASSERT_EQ(empty_vector.size(), 1);
+	iter = empty_vector.emplace(empty_vector.end(), 2);
+	ASSERT_EQ(iter + 1, empty_vector.end());
+	iter = empty_vector.emplace(iter, 1);
+	ASSERT_EQ(*iter, 1);
+	ASSERT_EQ(*(iter + 1), 2);
+	ASSERT_EQ(*(iter - 1), 0);
+	ASSERT_EQ(empty_vector.size(), 3);
+	empty_vector.clear();
+	ASSERT_EQ(empty_vector.size(), 0);
+}
+
 int main(int argc, char *argv[])
 {
 	::testing::InitGoogleTest(&argc, argv);
