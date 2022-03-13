@@ -274,6 +274,29 @@ public:
 		return iterator(_begin + n);
 	}
 
+	iterator erase(iterator position)
+	{
+		if (position == begin())
+		{
+			_begin = destroy(_begin);
+			return begin();
+		}
+		else if (static_cast<std::size_t>(position - begin())) < (size() / 2))
+		{
+			std::move_backward(begin(), position, position + 1);
+			destroy(_begin);
+			++_begin;
+			return position;
+		}
+		else if (position + 1 != end())
+		{
+			std::move(position + 1, end(), position);
+		}
+		--_end;
+		destroy(_end);
+		return position;
+	}
+
 private:
 	[[nodiscard]] pointer allocate(std::size_t n)
 	{
