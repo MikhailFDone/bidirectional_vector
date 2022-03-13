@@ -159,6 +159,65 @@ public:
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 	const_reverse_iterator crend() const { return const_reverse_iterator(begin()); }
 
+	// Element access
+	TValue& at(std::size_t pos)
+	{
+		if (pos >= size())
+		{
+			throw std::out_of_range("bidirectional_vector: at");
+		}
+		return *(begin() + pos);
+	}
+
+	const TValue& at(std::size_t pos) const
+	{
+		if (pos >= size())
+		{
+			throw std::out_of_range("bidirectional_vector: at");
+		}
+		return *(begin() + pos);
+	}
+
+	TValue& operator[](std::size_t pos)
+	{
+		return *(begin() + pos);
+	}
+
+	const TValue& operator[](std::size_t pos) const
+	{
+		return *(begin() + pos);
+	}
+
+	TValue& front()
+	{
+		return *begin();
+	}
+
+	const TValue& front() const
+	{
+		return *begin();
+	}
+
+	TValue& back()
+	{
+		return *std::prev(end());
+	}
+
+	const TValue& back() const
+	{
+		return *std::prev(end());
+	}
+
+	pointer data() noexcept
+	{
+		return begin();
+	}
+
+	const_pointer data() const noexcept
+	{
+		return begin();
+	}
+
 	// Capacity
 	[[nodiscard]] bool empty() const { return begin() == end(); }
 
