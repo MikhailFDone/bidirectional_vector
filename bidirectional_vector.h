@@ -136,7 +136,11 @@ private:
 	pointer _end_of_storage = nullptr;
 
 public:
-	
+	~bidirectional_vector()
+	{
+		destroy(_begin, _end);
+		deallocate(_begin_of_storage);
+	}
 
 	// Iterators
 	iterator begin() { return iterator(_begin); }
