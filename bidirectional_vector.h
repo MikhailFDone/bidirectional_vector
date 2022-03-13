@@ -297,6 +297,84 @@ public:
 		return position;
 	}
 
+	void push_back(const TValue& value)
+	{
+		if (_end != _end_of_storage)
+		{
+			construct(_end, value);
+			++_end;
+		}
+		else
+		{
+			realloc_insert(end(), value);
+		}
+	}
+
+	void push_back(TValue&& value)
+	{
+		emplace_back(std::move(value));
+	}
+
+	template <typename... Args>
+	TValue& emplace_back(Args&& ...args)
+	{
+		if (_end != _end_of_storage)
+		{
+			construct(_end, std::forward<Args>(args)...);
+			++_end;
+		}
+		else
+		{
+			realloc_insert(end(), std::forward<Args>(args)...);
+		}
+		return back();
+	}
+
+	void pop_back() noexcept
+	{
+		--_end;
+		destroy(_end);
+	}
+
+	void push_front(const TValue& value)
+	{
+		if (_begin != _begin_of_storage)
+		{
+			--_begin;
+			construct(_begin, value);
+		}
+		else
+		{
+			realloc_insert(begin(), value);
+		}
+	}
+
+	void push_front(TValue&& value)
+	{
+		emplace_front(std::move(value));
+	}
+
+	template <typename... Args>
+	TValue& emplace_front(Args&& ...args)
+	{
+		if (_begin != _begin_of_storage)
+		{
+			--_begin;
+			construct(_begin, std::forward<Args>(args)...);
+		}
+		else
+		{
+			realloc_insert(begin(), std::forward<Args>(args)...);
+		}
+		return front();
+	}
+
+	void pop_front() noexcept
+	{
+		destroy(_begin);
+		++_begin;
+	}
+
 private:
 	[[nodiscard]] pointer allocate(std::size_t n)
 	{
