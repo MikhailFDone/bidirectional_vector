@@ -375,6 +375,14 @@ public:
 		++_begin;
 	}
 
+	void swap(bidirectional_vector& other) noexcept
+	{
+		std::swap(_begin_of_storage, other._begin_of_storage);
+		std::swap(_end_of_storage, other._end_of_storage);
+		std::swap(_begin, other._begin);
+		std::swap(_end, other._end);
+	}
+
 private:
 	[[nodiscard]] pointer allocate(std::size_t n)
 	{
