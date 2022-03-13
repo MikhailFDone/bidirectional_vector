@@ -281,7 +281,7 @@ public:
 			_begin = destroy(_begin);
 			return begin();
 		}
-		else if (static_cast<std::size_t>(position - begin())) < (size() / 2))
+		else if (static_cast<std::size_t>(position - begin()) < (size() / 2))
 		{
 			std::move_backward(begin(), position, position + 1);
 			destroy(_begin);
