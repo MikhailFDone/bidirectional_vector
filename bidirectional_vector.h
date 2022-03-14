@@ -66,6 +66,26 @@ public:
 		return base() != other.base();
 	}
 
+	bool operator<(const normal_iterator& other) const noexcept
+	{
+		return base() < other.base();
+	}
+
+	bool operator>(const normal_iterator& other) const noexcept
+	{
+		return base() > other.base();
+	}
+
+	bool operator<=(const normal_iterator& other) const noexcept
+	{
+		return base() <= other.base();
+	}
+
+	bool operator>=(const normal_iterator& other) const noexcept
+	{
+		return base() >= other.base();
+	}
+
 	// Bidirectional iterator requirements
 	normal_iterator& operator--() noexcept
 	{
