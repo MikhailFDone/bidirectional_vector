@@ -160,7 +160,7 @@ public:
 	const_reverse_iterator crend() const { return const_reverse_iterator(begin()); }
 
 	// Element access
-	TValue& at(std::size_t pos)
+	reference at(std::size_t pos)
 	{
 		if (pos >= size())
 		{
@@ -169,7 +169,7 @@ public:
 		return *(begin() + pos);
 	}
 
-	const TValue& at(std::size_t pos) const
+	const_reference at(std::size_t pos) const
 	{
 		if (pos >= size())
 		{
@@ -178,32 +178,32 @@ public:
 		return *(begin() + pos);
 	}
 
-	TValue& operator[](std::size_t pos)
+	reference operator[](std::size_t pos)
 	{
 		return *(begin() + pos);
 	}
 
-	const TValue& operator[](std::size_t pos) const
+	const_reference operator[](std::size_t pos) const
 	{
 		return *(begin() + pos);
 	}
 
-	TValue& front()
+	reference front()
 	{
 		return *begin();
 	}
 
-	const TValue& front() const
+	const_reference front() const
 	{
 		return *begin();
 	}
 
-	TValue& back()
+	reference back()
 	{
 		return *std::prev(end());
 	}
 
-	const TValue& back() const
+	const_reference back() const
 	{
 		return *std::prev(end());
 	}
@@ -297,7 +297,7 @@ public:
 		return position;
 	}
 
-	void push_back(const TValue& value)
+	void push_back(const_reference value)
 	{
 		if (_end != _end_of_storage)
 		{
@@ -316,7 +316,7 @@ public:
 	}
 
 	template <typename... Args>
-	TValue& emplace_back(Args&& ...args)
+	reference emplace_back(Args&& ...args)
 	{
 		if (_end != _end_of_storage)
 		{
@@ -336,7 +336,7 @@ public:
 		destroy(_end);
 	}
 
-	void push_front(const TValue& value)
+	void push_front(const_reference value)
 	{
 		if (_begin != _begin_of_storage)
 		{
@@ -355,7 +355,7 @@ public:
 	}
 
 	template <typename... Args>
-	TValue& emplace_front(Args&& ...args)
+	reference emplace_front(Args&& ...args)
 	{
 		if (_begin != _begin_of_storage)
 		{
