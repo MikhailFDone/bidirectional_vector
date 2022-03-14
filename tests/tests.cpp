@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(bidirectional_vector, construct)
+TEST(bidirectional_vector, construct_empty)
 {
 	ASSERT_NO_THROW(bidirectional_vector<int>{});
 
@@ -11,6 +11,17 @@ TEST(bidirectional_vector, construct)
 	ASSERT_EQ(empty_vector.size(), 0);
 	ASSERT_EQ(empty_vector.capacity(), 0);
 	ASSERT_NE(empty_vector.max_size(), 0);
+}
+
+TEST(bidirectional_vector, construct)
+{
+	bidirectional_vector<int> empty_vector(42, 7);
+	ASSERT_FALSE(empty_vector.empty());
+	ASSERT_EQ(empty_vector.size(), 42);
+	ASSERT_EQ(empty_vector.capacity(), 42);
+	ASSERT_EQ(empty_vector[0], 7);
+	ASSERT_EQ(empty_vector.front(), 7);
+	ASSERT_EQ(empty_vector.back(), 7);
 }
 
 TEST(bidirectional_vector, emplace)

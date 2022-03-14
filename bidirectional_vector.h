@@ -136,6 +136,21 @@ private:
 	pointer _end_of_storage = nullptr;
 
 public:
+	bidirectional_vector() = default;
+
+	bidirectional_vector(std::size_t count, const_reference value)
+	{
+		if (max_size() < count)
+		{
+			throw std::length_error("cannot create bidirectional_vector larger than max_size()");
+		}
+		_begin_of_storage = allocate(count);
+		_end_of_storage = _begin_of_storage + count;
+
+		_begin = _begin_of_storage;
+		_end = std::uninitialized_fill_n(_begin, count, value);
+	}
+
 	~bidirectional_vector()
 	{
 		destroy(_begin, _end);
