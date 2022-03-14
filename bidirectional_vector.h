@@ -176,7 +176,7 @@ public:
 		init_storage(count);
 
 		_begin = _begin_of_storage;
-		_end = std::uninitialized_default_construct_n(_begin, count);
+		_end = std::uninitialized_value_construct_n(_begin, count);
 	}
 
 	~bidirectional_vector()
