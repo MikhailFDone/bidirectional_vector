@@ -15,13 +15,21 @@ TEST(bidirectional_vector, construct_empty)
 
 TEST(bidirectional_vector, construct)
 {
-	bidirectional_vector<int> empty_vector(42, 7);
-	ASSERT_FALSE(empty_vector.empty());
-	ASSERT_EQ(empty_vector.size(), 42);
-	ASSERT_EQ(empty_vector.capacity(), 42);
-	ASSERT_EQ(empty_vector[0], 7);
-	ASSERT_EQ(empty_vector.front(), 7);
-	ASSERT_EQ(empty_vector.back(), 7);
+	bidirectional_vector<int> default_vector(10);
+	ASSERT_FALSE(default_vector.empty());
+	ASSERT_EQ(default_vector.size(), 10);
+	ASSERT_EQ(default_vector.capacity(), 10);
+	ASSERT_EQ(default_vector[0], 0);
+	ASSERT_EQ(default_vector.front(), 0);
+	ASSERT_EQ(default_vector.back(), 0);
+
+	bidirectional_vector<int> vector_of_copies(42, 7);
+	ASSERT_FALSE(vector_of_copies.empty());
+	ASSERT_EQ(vector_of_copies.size(), 42);
+	ASSERT_EQ(vector_of_copies.capacity(), 42);
+	ASSERT_EQ(vector_of_copies[0], 7);
+	ASSERT_EQ(vector_of_copies.front(), 7);
+	ASSERT_EQ(vector_of_copies.back(), 7);
 }
 
 TEST(bidirectional_vector, emplace)

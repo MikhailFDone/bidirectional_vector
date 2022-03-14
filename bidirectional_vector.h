@@ -140,15 +140,18 @@ public:
 
 	bidirectional_vector(std::size_t count, const_reference value)
 	{
-		if (max_size() < count)
-		{
-			throw std::length_error("cannot create bidirectional_vector larger than max_size()");
-		}
-		_begin_of_storage = allocate(count);
-		_end_of_storage = _begin_of_storage + count;
+		init_storage(count);
 
 		_begin = _begin_of_storage;
 		_end = std::uninitialized_fill_n(_begin, count, value);
+	}
+
+	explicit bidirectional_vector(std::size_t count)
+	{
+		init_storage(count);
+
+		_begin = _begin_of_storage;
+		_end = std::uninitialized_default_construct_n(_begin, count);
 	}
 
 	~bidirectional_vector()
@@ -426,6 +429,16 @@ private:
 	void destroy(pointer begin, pointer end)
 	{
 		std::destroy(begin, end);
+	}
+
+	void init_storage(std::size_t count)
+	{
+		if (max_size() < count)
+		{
+			throw std::length_error("cannot create bidirectional_vector larger than max_size()");
+		}
+		_begin_of_storage = allocate(count);
+		_end_of_storage = _begin_of_storage + count;
 	}
 
 	std::size_t check_len(std::size_t len_to_add) const
