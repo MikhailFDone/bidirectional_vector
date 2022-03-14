@@ -3,6 +3,7 @@
 #include <iterator>
 #include <limits>
 #include <memory>
+#include <algorithm>
 
 template <typename TIterator, typename TContainer>
 class normal_iterator
@@ -317,6 +318,11 @@ public:
 		return iterator(_begin + n);
 	}
 
+	iterator insert(const_iterator position, TValue&& value)
+	{
+		return emplace(position, std::move(value));
+	}
+
 	iterator erase(iterator position)
 	{
 		if (position == begin())
@@ -446,9 +452,9 @@ private:
 		::new (static_cast<void *>(value_ptr)) value_type(std::forward<Args>(args)...);
 	}
 
-	void destroy(pointer value_ptr)
+	pointer destroy(pointer value_ptr)
 	{
-		std::destroy_n(value_ptr, 1);
+		return std::destroy_n(value_ptr, 1);
 	}
 
 	void destroy(pointer begin, pointer end)
