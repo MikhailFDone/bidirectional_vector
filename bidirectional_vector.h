@@ -180,10 +180,51 @@ public:
 		_end = std::uninitialized_value_construct_n(_begin, count);
 	}
 
+	bidirectional_vector(const bidirectional_vector& other)
+	{
+		_begin_of_storage = allocate(other.size());
+		_end_of_storage = _begin_of_storage + other.size();
+		_begin = _begin_of_storage;
+		_end = _end_of_storage;
+
+		std::uninitialized_copy(other._begin, other._end, _begin);
+	}
+
 	~bidirectional_vector()
 	{
 		destroy(_begin, _end);
 		deallocate(_begin_of_storage);
+	}
+
+	bidirectional_vector& operator=(const bidirectional_vector& other)
+    {
+		if (&other == this) { return *this; }
+
+		const std::size_t other_len = other.size();
+		if (other_len > capacity())
+		{
+			pointer tmp = allocate(other_len);
+			std::uninitialized_copy(other._begin, other._end, tmp);
+
+			destroy(_begin, _end);
+			deallocate(_begin_of_storage);
+
+			_begin_of_storage = tmp;
+			_begin = _begin_of_storage;
+			_end_of_storage = _begin + other_len;
+		}
+		else if (size() >= other_len)
+		{
+			destroy(
+				std::copy(other.begin(), other.end(), begin()).base(),
+				end().base());
+		}
+		else // (other_len <= capacity() && other_len > size())
+		{
+			std::copy(other._begin, other._begin + size(), _begin);
+			std::uninitialized_copy(other._begin + size(), other._end, _end);
+		}
+		_end = _begin + other_len;
 	}
 
 	// Iterators
