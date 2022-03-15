@@ -182,12 +182,10 @@ public:
 
 	bidirectional_vector(const bidirectional_vector& other)
 	{
-		_begin_of_storage = allocate(other.size());
-		_end_of_storage = _begin_of_storage + other.size();
-		_begin = _begin_of_storage;
-		_end = _end_of_storage;
+		init_storage(other.size());
 
-		std::uninitialized_copy(other._begin, other._end, _begin);
+		_begin = _begin_of_storage;
+		_end = std::uninitialized_copy(other._begin, other._end, _begin);
 	}
 
 	~bidirectional_vector()
