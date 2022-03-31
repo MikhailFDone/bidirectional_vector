@@ -1,6 +1,7 @@
 #include <bidirectional_vector.h>
 #include <vector>
 #include <queue>
+#include <set>
 
 #include <gtest/gtest.h>
 
@@ -79,8 +80,74 @@ TEST(bidirectional_vector, priority_queue)
 	ASSERT_EQ(q.top(), bid_q.top());
 }
 
+// https://stackoverflow.com/a/16220234
+// (I'm too lazy to write my own test)
+
+template <typename T>
+double run_test(T& pq, int size, int iterations)
+{
+    struct timespec start, end;
+
+    for(int i = 0; i < size; ++i)
+        pq.push(rand());
+
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
+    for(int i = 0; i < iterations; ++i)
+    {
+        if(rand()%2)
+            pq.pop();
+        else
+            pq.push(rand());
+
+    }
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+
+    end.tv_sec -= start.tv_sec;
+    end.tv_nsec -= start.tv_nsec;
+    if (end.tv_nsec < 0)
+    {
+        --end.tv_sec;
+        end.tv_nsec += 1000000000ULL;
+    }
+
+    return (end.tv_sec*1e3 + end.tv_nsec/1e6);
+}
+
+template <class T>
+class multiset_pq : public std::multiset<T>
+{
+public:
+	multiset_pq() : std::multiset<T>() {};
+	void push(T elm) { this->insert(elm); }
+	void pop()
+	{
+		if (!this->empty())
+			this->erase(this->begin());
+	}
+	const T& top() { return *this->begin(); }
+};
+
 int main(int argc, char *argv[])
 {
 	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+	auto gtest_result = RUN_ALL_TESTS();
+
+	{
+		const int size = 5000;
+		const int iterations = 100000;
+
+		std::priority_queue<int, bidirectional_vector<int>> pq_bidv;
+		std::priority_queue<int> pqv;
+		std::priority_queue<int, std::deque<int>> pqd;
+		multiset_pq<int> pqms;
+
+		srand(time(0));
+
+		std::cout << "pq-w-bidirectional_vector: " << run_test(pq_bidv, size, iterations) << "ms" << std::endl;
+		std::cout << "pq-w-vector: " << run_test(pqv, size, iterations) << "ms" << std::endl;
+		std::cout << "pq-w-deque: " << run_test(pqd, size, iterations) << "ms" << std::endl;
+		std::cout << "pq-w-multiset: " << run_test(pqms, size, iterations) << "ms" << std::endl;
+	}
+
+	return gtest_result;
 }
