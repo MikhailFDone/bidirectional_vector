@@ -143,6 +143,7 @@ class bidirectional_vector
 {
 public:
 	using value_type = TValue;
+	using size_type = std::size_t;
 
 	using pointer = TValue *;
 	using const_pointer = const TValue *;

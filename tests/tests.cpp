@@ -1,4 +1,6 @@
 #include <bidirectional_vector.h>
+#include <vector>
+#include <queue>
 
 #include <gtest/gtest.h>
 
@@ -47,6 +49,34 @@ TEST(bidirectional_vector, emplace)
 	ASSERT_EQ(empty_vector.size(), 3);
 	empty_vector.clear();
 	ASSERT_EQ(empty_vector.size(), 0);
+}
+
+TEST(bidirectional_vector, priority_queue)
+{
+	const auto data = {1,8,5,6,3,4,0,9,7,2};
+ 
+	std::priority_queue<int> q;
+
+    for(int n : data)
+        q.push(n);
+ 
+    std::priority_queue<int, bidirectional_vector<int>> bid_q;
+
+	for(int n : data)
+        bid_q.push(n);
+
+	ASSERT_FALSE(q.empty());
+	ASSERT_FALSE(bid_q.empty());
+	ASSERT_EQ(q.size(), bid_q.size());
+	ASSERT_EQ(q.top(), bid_q.top());
+
+	q.pop();
+	bid_q.pop();
+
+	ASSERT_FALSE(q.empty());
+	ASSERT_FALSE(bid_q.empty());
+	ASSERT_EQ(q.size(), bid_q.size());
+	ASSERT_EQ(q.top(), bid_q.top());
 }
 
 int main(int argc, char *argv[])
